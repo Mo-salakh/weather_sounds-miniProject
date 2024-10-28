@@ -1,0 +1,25 @@
+/*!*******************************************************************************************************!*\
+  !*** css ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./style.sass ***!
+  \*******************************************************************************************************/
+@font-face {
+  font-family: "Roboto";
+  src: url(assets/fc2b5060f7accec5cf74.ttf);
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 2rem;
+  color: rgba(204, 204, 204, 0.8);
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+}
+
+.weather_list .weather_item {
+  list-style: none;
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFpbi5jc3MiLCJtYXBwaW5ncyI6Ijs7O0FBQUE7RUFDSTtFQUNBO0FBQ0o7QUFDQTtFQUNJO0VBQ0E7RUFDQTtBQUNKOztBQUNBO0VBQ0k7RUFDQTtFQUNBO0VBQ0E7QUFFSjs7QUFHSTtFQUNJO0FBQVIsQyIsInNvdXJjZXMiOlsid2VicGFjazovLy8uL3N0eWxlLnNhc3MiXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=*/
