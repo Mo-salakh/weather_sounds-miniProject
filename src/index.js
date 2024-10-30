@@ -8,13 +8,20 @@ import winterBg from './assets/winter-bg.jpg'
 import summerSound from './assets/sounds/summer.mp3'
 import rainSound from './assets/sounds/rain.mp3'
 import winterSound from './assets/sounds/winter.mp3'
+import pauseI from './assets/icons/pause.svg'
 
-const weatherType = document.getElementsByClassName('weather_item');
 const sunEl = document.querySelector('.sun');
 const rainEl = document.querySelector('.rain');
 const snowEl = document.querySelector('.snow');
 const body =  document.body;
 const title = document.querySelector('.title')
+const audioEl = document.querySelector('#audioEl') 
+const volumeControl = document.querySelector('#volumeControl');
+
+
+volumeControl.addEventListener('input', (event) => {
+    audioEl.volume = event.target.value;
+});
 
 const sunImage = document.createElement('img');
 sunImage.src = sunIcon;
@@ -36,38 +43,67 @@ sunEl.style.backgroundImage = `url(${sunBg})`
 rainEl.style.backgroundImage = `url(${rainBg})`
 snowEl.style.backgroundImage = `url(${winterBg})`
 
+let currentAtmosphere = null;
 
-body.classList.add('sun')
+function setAtmosphere(atmosphere) {
 
-function changeBg() {
-    if (body.classList.contains('sun')) {
-        body.style.backgroundImage = `url(${sunBg})`;
-        title.style.color = 'orange';
-    } else if (body.classList.contains('rain')) {
-        body.style.backgroundImage = `url(${rainBg})`;
-        title.style.color = '#ce02ce';
-    } else if (body.classList.contains('snow')) {
-        body.style.backgroundImage = `url(${winterBg})`;
-        title.style.color = '#707070';
+    const elements = {
+        sun: { icon: sunImage, bg: sunBg, sound: summerSound },
+        rain: { icon: rainImage, bg: rainBg, sound: rainSound },
+        snow: { icon: snowImage, bg: winterBg, sound: winterSound }
+    };
+
+    Object.values(elements).forEach(item => {
+        switch (item.icon.alt) {
+            case 'sun_icon':
+                item.icon.src = sunIcon;
+                break;
+            case 'rain_icon':
+                item.icon.src = rainIcon;
+                break;
+            case 'snow_icon':
+                item.icon.src = snowIcon;
+                break;
+            default:
+                return null
+        }
+    });
+
+    if (currentAtmosphere === atmosphere) {
+        if (audioEl.paused) {
+            audioEl.play();
+        } else {
+            audioEl.pause();
+            elements[atmosphere].icon.src = pauseI;
+        }
     } else {
-        body.style.backgroundImage = '';
-        
+        currentAtmosphere = atmosphere;
+        body.style.backgroundImage = `url(${elements[atmosphere].bg})`;
+        audioEl.src = elements[atmosphere].sound;
+        audioEl.play();
+
+        if (atmosphere === 'sun') {
+            title.style.color = 'orange';
+        } else if (atmosphere === 'rain') {
+            title.style.color = '#ce02ce';
+        } else if (atmosphere === 'snow') {
+            title.style.color = '#707070';
+        }
     }
+
+    body.className = atmosphere;
 }
 
-sunEl.addEventListener('click', () => {
-    body.classList.remove('rain', 'snow');
-    body.classList.add('sun');
-    changeBg();
-})
-rainEl.addEventListener('click', () => {
-    body.classList.remove('sun', 'snow');
-    body.classList.add('rain')
-    changeBg();
-})
-snowEl.addEventListener('click', () => {
-    body.classList.remove('sun', 'rain');
-    body.classList.add('snow');
-    changeBg();
-})
 
+
+sunEl.addEventListener('click', () => {
+    setAtmosphere('sun');
+});
+
+rainEl.addEventListener('click', () => {
+    setAtmosphere('rain');
+});
+
+snowEl.addEventListener('click', () => {
+    setAtmosphere('snow');
+});
